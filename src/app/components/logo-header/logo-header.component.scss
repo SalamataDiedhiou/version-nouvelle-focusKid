@@ -1,0 +1,27 @@
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 72px; height: 72px;
+  background: var(--caramel);
+  border-radius: 22px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 30px rgba(200,135,74,0.4), 0 2px 8px rgba(0,0,0,0.08);
+  font-size: 2.2rem;
+  animation: iconPop 0.8s cubic-bezier(.34,1.56,.64,1) 0.2s both;
+}
+@keyframes iconPop {
+  from { transform: scale(0) rotate(-20deg); }
+  to   { transform: scale(1) rotate(0deg); }
+}
+.logo-text {
+  font-family: 'Baloo 2', cursive;
+  font-size: 3.8rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.logo-focus { color: var(--brown); }
+.logo-kid   { color: var(--caramel); }

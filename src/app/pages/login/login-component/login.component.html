@@ -1,0 +1,42 @@
+<div class="login-page">
+    <section class="login-card">
+        <div class="brand">
+            <div class="brand-icon">FK</div>
+            <div>
+                <h1>FocusKid</h1>
+                <p>Espace professionnel</p>
+            </div>
+        </div>
+
+        <div class="intro">
+            <h2>Connexion ergothérapeute</h2>
+            <p>Accédez au suivi des patients et aux configurations des séances.</p>
+        </div>
+
+        <form (ngSubmit)="login()" class="login-form">
+            <label>
+                Adresse e-mail
+                <input
+                        type="email"
+                        name="email"
+                        placeholder="ex : ergo@focuskid.fr"
+                        [(ngModel)]="email"
+                />
+            </label>
+
+            <label>
+                Mot de passe
+                <input
+                        type="password"
+                        name="password"
+                        placeholder="Votre mot de passe"
+                        [(ngModel)]="password"
+                />
+            </label>
+
+            <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+            <button type="submit">Se connecter</button>
+        </form>
+    </section>
+</div>

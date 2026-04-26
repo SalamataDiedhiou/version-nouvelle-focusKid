@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap');
+
+:host {
+  display: block;
+  font-family: 'Nunito', sans-serif;
+}
+
+// ── Topbar ──
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px; padding: 0 28px;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(8,145,178,0.12);
+  box-shadow: 0 2px 16px rgba(14,116,144,0.08);
+}
+.logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo-text { font-family: 'Baloo 2', cursive; font-size: 22px; font-weight: 800; color: #0e7490; }
+.topbar-title { font-family: 'Baloo 2', cursive; font-size: 18px; font-weight: 700; color: #374151; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.user-badge {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 14px; border-radius: 40px;
+  background: #f0fdff; border: 1.5px solid #cffafe;
+  font-size: 13px; font-weight: 700; color: #0e7490;
+}
+.user-ava {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #0891b2; color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 12px;
+}
+
+// ── Page ──
+.page {
+  max-width: 1180px; margin: 0 auto;
+  padding: 28px 24px 60px;
+}
+
+.page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; gap: 16px; flex-wrap: wrap;
+}
+.page-title { font-family: 'Baloo 2', cursive; font-size: 26px; font-weight: 800; color: #111827; }
+.page-sub { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 2px; }
+
+.btn-add {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 12px;
+  background: #0891b2; color: white; border: none;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800;
+  cursor: pointer; box-shadow: 0 4px 14px rgba(8,145,178,0.3);
+  transition: all 0.2s;
+  &:hover { background: #0e7490; transform: translateY(-1px); }
+}
+
+// ── Toolbar ──
+.toolbar {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.search-wrap {
+  display: flex; align-items: center; gap: 10px;
+  background: white; border: 1.5px solid #e2e8f0;
+  border-radius: 12px; padding: 9px 16px;
+  flex: 1; min-width: 220px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  svg { color: #9ca3af; flex-shrink: 0; }
+  input {
+    border: none; outline: none; background: transparent;
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+    color: #111827; width: 100%;
+    &::placeholder { color: #9ca3af; }
+  }
+}
+.filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 8px 16px; border-radius: 20px; border: 1.5px solid #e2e8f0;
+  background: white; font-family: 'Nunito', sans-serif; font-size: 12px;
+  font-weight: 700; color: #6b7280; cursor: pointer; transition: all 0.18s;
+  &:hover { color: #0891b2; border-color: #cffafe; }
+  &.active { background: #0891b2; color: white; border-color: #0891b2; }
+}
+
+// ── Grid ──
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+// ── Patient card ──
+.patient-card {
+  background: white; border-radius: 24px;
+  padding: 22px; border: 1px solid rgba(8,145,178,0.08);
+  box-shadow: 0 2px 14px rgba(8,145,178,0.08);
+  transition: all 0.25s; animation: fadeUp 0.35s ease both;
+  &:hover { box-shadow: 0 8px 28px rgba(8,145,178,0.14); transform: translateY(-2px); }
+}
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #cffafe; color: #0e7490;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 18px;
+}
+.card-actions { display: flex; gap: 6px; }
+.icon-btn {
+  width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid #e5e7eb;
+  background: white; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #6b7280; transition: all 0.18s;
+  &:hover { background: #f0fdff; border-color: #cffafe; color: #0891b2; }
+  &.icon-btn-red:hover { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+}
+
+.patient-name { font-family: 'Baloo 2', cursive; font-size: 18px; font-weight: 800; color: #111827; }
+.patient-meta { font-size: 12px; color: #6b7280; font-weight: 600; margin-top: 2px; margin-bottom: 10px; }
+
+.profil-badge {
+  display: inline-block; padding: 3px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 800; margin-bottom: 16px;
+}
+.badge-blue   { background: #eff6ff; color: #1d4ed8; }
+.badge-coral  { background: #fff0ee; color: #c2410c; }
+.badge-purple { background: #f5f3ff; color: #6d28d9; }
+
+.stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 14px;
+}
+.stat-item { text-align: center; }
+.stat-val { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 800; }
+.stat-lbl { font-size: 10px; color: #9ca3af; font-weight: 700; margin-top: 2px; }
+
+.last-session {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: #9ca3af; font-weight: 600;
+  margin-bottom: 16px;
+  svg { flex-shrink: 0; }
+}
+
+.card-footer { display: flex; gap: 8px; }
+.btn-stats, .btn-config {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 9px; border-radius: 12px; border: none;
+  font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800;
+  cursor: pointer; transition: all 0.18s;
+}
+.btn-stats { background: #f0fdff; color: #0891b2; &:hover { background: #cffafe; } }
+.btn-config {
+  background: linear-gradient(135deg, #ff6b5b, #ff8c7a); color: white;
+  box-shadow: 0 3px 10px rgba(255,107,91,0.25);
+  &:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(255,107,91,0.35); }
+}
+
+// ── Empty ──
+.empty-state {
+  text-align: center; padding: 60px 0;
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  p { font-size: 16px; color: #9ca3af; font-weight: 700; }
+}
+
+// ── Modal ──
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px); display: flex; align-items: center;
+  justify-content: center; z-index: 200; padding: 20px;
+}
+.modal {
+  background: white; border-radius: 24px;
+  width: 100%; max-width: 520px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  animation: fadeUp 0.25s ease;
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px 16px; border-bottom: 1px solid #f3f4f6;
+  h2 { font-family: 'Baloo 2', cursive; font-size: 18px; font-weight: 800; color: #111827; }
+}
+.modal-close {
+  width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid #e5e7eb;
+  background: white; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #6b7280; transition: all 0.18s;
+  &:hover { background: #fef2f2; color: #dc2626; }
+}
+.modal-body { padding: 20px 24px 24px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 0; }
+.form-label { font-size: 12px; font-weight: 800; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input {
+  padding: 10px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+  color: #111827; background: #f9fafb; transition: border-color 0.2s;
+  width: 100%; box-sizing: border-box;
+  &:focus { outline: none; border-color: #0891b2; background: white; }
+}
+.form-textarea { resize: none; min-height: 70px; }
+.modal-actions {
+  display: flex; gap: 10px; margin-top: 20px;
+}
+.btn-cancel {
+  flex: 1; padding: 11px; border-radius: 12px; border: 1.5px solid #e5e7eb;
+  background: white; font-family: 'Nunito', sans-serif; font-size: 14px;
+  font-weight: 700; color: #6b7280; cursor: pointer;
+  &:hover { background: #f3f4f6; }
+}
+.btn-save {
+  flex: 2; padding: 11px; border-radius: 12px; border: none;
+  background: #0891b2; color: white; font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(8,145,178,0.3);
+  &:hover { background: #0e7490; }
+}
+.logout-btn {
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #fecaca;
+  background: #fff;
+  color: #dc2626;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #fef2f2;
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .topbar-title { display: none; }
+}

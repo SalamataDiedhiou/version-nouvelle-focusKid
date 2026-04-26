@@ -1,0 +1,627 @@
+/* ============================================================
+   FOCUSKID — CSS Final
+   À importer dans ton composant Angular (.component.css)
+   ============================================================ */
+
+/* ---------- Variables ---------- */
+:host {
+  --beige: #fdf6ee;
+  --beige-mid: #f0e0c8;
+  --beige-warm: #fdebd6;
+  --caramel: #c8874a;
+  --caramel-light: #e8a96e;
+  --caramel-pale: #e8c99a;
+  --brown: #6b3f1f;
+  --brown-soft: #9c6b3c;
+  --brown-mid: #b07840;
+  --cream: #fffaf3;
+  --cream-warm: #fff8f0;
+  --shadow-warm: rgba(200, 135, 74, 0.18);
+
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--beige);
+  font-family: 'Nunito', sans-serif;
+  animation: fadeIn 0.5s ease-out both;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Layout principal ---------- */
+.main-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.center-zone {
+  display: flex;
+  flex-direction: column;
+  padding: 0.7rem;
+  gap: 0.55rem;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ---------- Barre du haut (consigne + timer) ---------- */
+.top-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 0.55rem;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* ---------- Boîte de consigne ---------- */
+.instruction-box {
+  flex: 1;
+  background: linear-gradient(135deg, var(--cream-warm) 60%, var(--beige-warm));
+  border: 2px solid var(--caramel-pale);
+  border-radius: 16px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Trait coloré à gauche */
+.instruction-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--caramel-light), var(--caramel));
+  border-radius: 16px 0 0 16px;
+}
+
+.instruction-text {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--brown-mid);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.target-preview svg {
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.12));
+}
+
+.instruction-highlight {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--caramel);
+}
+
+.nogo-badge {
+  background: #fff0f0;
+  border: 2px solid #e8635a;
+  border-radius: 50px;
+  padding: 3px 12px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #c0392b;
+}
+
+/* ---------- Timer ---------- */
+.timer-container {
+  background: var(--cream-warm);
+  border: 2px solid var(--caramel-pale);
+  border-radius: 16px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.timer-circle {
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.timer-svg {
+  width: 44px;
+  height: 44px;
+  transform: rotate(-90deg);
+}
+
+.timer-bg {
+  fill: none;
+  stroke: var(--beige-mid);
+  stroke-width: 4;
+}
+
+.timer-arc {
+  fill: none;
+  stroke: var(--caramel);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 106.8;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--brown);
+}
+
+.timer-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--brown-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Zone de jeu ---------- */
+.game-area {
+  flex: 1;
+  width: 100%;
+  background: #fffdf9;
+  border-radius: 20px;
+  border: 2px solid var(--caramel-pale);
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Cercles décoratifs d'arrière-plan */
+.game-area::before,
+.game-area::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: var(--caramel);
+  opacity: 0.045;
+  pointer-events: none;
+}
+
+.game-area::before {
+  width: 180px;
+  height: 180px;
+  top: -40px;
+  right: -40px;
+}
+
+.game-area::after {
+  width: 120px;
+  height: 120px;
+  bottom: -20px;
+  left: -20px;
+}
+
+/* ---------- Formes ---------- */
+.shape {
+  position: absolute;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.shape svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.10));
+}
+
+.shape:hover {
+  transform: scale(1.13);
+}
+
+/* ---------- Bouton "Je ne la vois pas" ---------- */
+.btn-nogo {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  border-radius: 50px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 9px 28px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.btn-nogo--inactive {
+  background: var(--beige-mid);
+  color: var(--brown-soft);
+  border: 2px dashed var(--caramel-light);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn-nogo--active {
+  background: white;
+  color: var(--brown);
+  border: 2.5px solid var(--caramel-light);
+  box-shadow: 0 4px 14px var(--shadow-warm);
+}
+
+.btn-nogo--active:hover {
+  background: var(--cream-warm);
+  transform: translateX(-50%) scale(1.04);
+}
+
+/* ---------- Sidebar (wrapper flottant) ---------- */
+.sidebar-wrap {
+  padding: 0.7rem 0.7rem 0.7rem 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar {
+  background: var(--cream);
+  border: 2px solid var(--beige-mid);
+  border-radius: 16px;
+  padding: 0.85rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ---------- Carte "Avant la pause" ---------- */
+.pause-progress-section {
+  background: linear-gradient(135deg, var(--cream-warm), var(--beige-warm));
+  border: 2px solid var(--caramel-pale);
+  border-radius: 12px;
+  padding: 0.65rem 0.8rem;
+  text-align: center;
+}
+
+.sidebar-title {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--brown-mid);
+  margin-bottom: 0.5rem;
+}
+
+.pause-stars-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.pause-star {
+  opacity: 0.25;
+}
+
+.pause-star.filled {
+  opacity: 1;
+}
+
+.pause-progress-hint {
+  font-size: 0.68rem;
+  color: var(--brown-soft);
+  font-weight: 700;
+}
+
+/* ---------- Sections sidebar ---------- */
+.sidebar-section {
+  background: var(--beige);
+  border: 1.5px solid #ead5b8;
+  border-radius: 12px;
+  padding: 0.7rem 0.75rem;
+}
+
+/* ---------- Étoiles ---------- */
+.stars-row {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.star {
+  font-size: 1rem;
+  filter: grayscale(1) opacity(0.25);
+}
+
+.star.earned {
+  filter: none;
+}
+
+/* ---------- Barre de progression ---------- */
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--brown-soft);
+  margin-bottom: 5px;
+}
+
+.progress-track {
+  background: var(--beige-mid);
+  border-radius: 50px;
+  height: 9px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--caramel-light), var(--caramel));
+  border-radius: 50px;
+  transition: width 0.6s;
+}
+
+.stage-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.stage-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--beige-mid);
+  border: 2px solid var(--caramel-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stage-dot.active {
+  background: var(--caramel);
+  border-color: var(--caramel);
+  box-shadow: 0 3px 8px rgba(200, 135, 74, 0.35);
+  transform: scale(1.15);
+}
+
+/* ---------- Grille de stats ---------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.stat-cell {
+  background: var(--cream-warm);
+  border: 1.5px solid #ead5b8;
+  border-radius: 10px;
+  padding: 7px 6px;
+  text-align: center;
+}
+
+.stat-n {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--caramel);
+  line-height: 1;
+}
+
+.stat-n.soft {
+  color: var(--brown-mid);
+  font-size: 1rem;
+}
+
+.stat-lbl {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--brown-mid);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* ---------- Temps session ---------- */
+.session-track {
+  background: #e2e8f0;
+}
+
+.session-fill {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+}
+
+/* ---------- Badges ---------- */
+.badges-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.badge {
+  background: var(--cream);
+  border: 1.5px solid var(--beige-mid);
+  border-radius: 12px;
+  padding: 8px 6px;
+  text-align: center;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.badge.earned-badge {
+  opacity: 1;
+  border-color: var(--caramel-pale);
+  background: var(--cream-warm);
+}
+
+.badge-icon {
+  font-size: 1.5rem;
+}
+
+.badge-name {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--brown-soft);
+  margin-top: 3px;
+}
+
+/* ---------- Overlay pause / fin ---------- */
+.pause-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(253, 246, 237, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pause-card {
+  background: var(--cream);
+  border: 2px solid var(--caramel-pale);
+  border-radius: 28px;
+  padding: 2.5rem 3.5rem;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(120, 70, 20, 0.12);
+}
+
+.pause-icon {
+  font-size: 3.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.pause-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--brown);
+}
+
+.pause-sub {
+  color: var(--brown-soft);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.pause-breathe {
+  font-family: 'Baloo 2', cursive;
+  color: var(--caramel);
+  font-weight: 700;
+  margin: 1.2rem 0;
+}
+
+.btn-resume {
+  background: linear-gradient(135deg, var(--caramel-light), var(--caramel));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 36px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 6px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-resume:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px var(--shadow-warm);
+}
+
+.end-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--beige-mid);
+  border-radius: 14px;
+  padding: 0.9rem 1.4rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.end-stat {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown);
+}
+
+/* ---------- Animation ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Mise en valeur (Hint) ---------- */
+@keyframes hintPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0px #fbbf24); }
+  50% { transform: scale(1.18); filter: drop-shadow(0 0 20px #fbbf24); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0px #fbbf24); }
+}
+
+.hint-target {
+  animation: hintPulse 1s 2 ease-in-out !important;
+  z-index: 100 !important;
+}
+
+// ── Action badge (double-clic / clic droit) ──────────────────
+.action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px auto 0;
+  padding: 6px 18px;
+  border-radius: 20px;
+  background: #fef3c7;
+  border: 2px solid #f59e0b;
+  color: #92400e;
+  font-size: 1rem;
+  font-weight: 700;
+  animation: pulseBadge 1.2s ease-in-out infinite;
+
+  &--right {
+    background: #ede9fe;
+    border-color: #7c3aed;
+    color: #4c1d95;
+  }
+}
+
+@keyframes pulseBadge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+

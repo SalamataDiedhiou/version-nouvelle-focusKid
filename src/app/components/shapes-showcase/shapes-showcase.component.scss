@@ -1,0 +1,24 @@
+.shapes-showcase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 8px 0;
+  animation: heroIn 0.8s cubic-bezier(.34,1.56,.64,1) 0.25s both;
+}
+::ng-deep .showcase-shape {
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.15));
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  display: inline-block;
+}
+::ng-deep .showcase-shape:hover { transform: scale(1.15) translateY(-4px); }
+::ng-deep .s1 { animation: shapeFloat1 3.5s ease-in-out infinite; }
+::ng-deep .s2 { animation: shapeFloat2 4s   ease-in-out infinite 0.3s; }
+::ng-deep .s3 { animation: shapeFloat3 3.8s ease-in-out infinite 0.6s; }
+::ng-deep .s4 { animation: shapeFloat1 4.2s ease-in-out infinite 0.9s; }
+::ng-deep .s5 { animation: shapeFloat2 3.6s ease-in-out infinite 0.2s; }
+::ng-deep .s6 { animation: shapeFloat3 4.4s ease-in-out infinite 0.7s; }
+
+@keyframes shapeFloat1 { 0%,100%{transform:translateY(0);}  50%{transform:translateY(-10px);} }
+@keyframes shapeFloat2 { 0%,100%{transform:translateY(0);}  50%{transform:translateY(8px);}  }
+@keyframes shapeFloat3 { 0%,100%{transform:translateY(0);}  50%{transform:translateY(-6px);} }

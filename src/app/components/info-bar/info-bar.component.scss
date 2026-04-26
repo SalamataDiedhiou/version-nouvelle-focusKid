@@ -1,0 +1,212 @@
+:host {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.instruction-box {
+  background: var(--cream);
+  border: 2.5px solid var(--beige-mid);
+  border-radius: 20px;
+  padding: 14px 28px;
+  box-shadow: 0 4px 16px var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  /* Override for centered layout */
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 20px !important;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.instruction-icon {
+  font-size: 1.8rem;
+  display: none; /* from niveau1.css override */
+}
+
+.instruction-text {
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.95rem; /* from override */
+  font-weight: 600;   /* from override */
+  color: var(--brown-soft); /* from override */
+}
+
+.target-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+::ng-deep .target-preview svg {
+  display: block;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.13));
+  animation: previewPulse 2s ease-in-out infinite;
+}
+@keyframes previewPulse {
+  0%, 100% { transform: scale(1);    }
+  50%      { transform: scale(1.08); }
+}
+
+.target-label-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.instruction-highlight {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.6rem; /* from override */
+  font-weight: 800;  /* from override */
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+/* Timer */
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 110px;
+}
+.timer-spacer {
+  flex: 0 0 115px;
+  pointer-events: none;
+}
+.timer-circle   { width: 80px; height: 80px; position: relative; }
+.timer-svg      { width: 80px; height: 80px; transform: rotate(-90deg); }
+.timer-bg       { fill: none; stroke: var(--beige-mid); stroke-width: 6; }
+.timer-arc {
+  fill: none;
+  stroke: var(--caramel);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 188.5;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.5s;
+}
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #2f4f4f;
+  line-height: 1;
+}
+
+.timer-text--urgent {
+  color: #e53935;
+  animation: urgentPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes urgentPulse {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+}
+.timer-label {
+  font-size: 0.75rem;
+  color: var(--brown-soft);
+  font-weight: 600;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Signal visuel NO-GO dans la consigne */
+.nogo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fff0f0;
+  border: 2px solid #e8635a;
+  border-radius: 50px;
+  padding: 3px 12px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #c0392b;
+  animation: nogoBadgePulse 1.5s ease-in-out infinite;
+}
+@keyframes nogoBadgePulse {
+  0%, 100% { transform: scale(1);    }
+  50%      { transform: scale(1.05); }
+}
+
+/* ── Timer d'urgence (affiché seulement ≤ 4s) ── */
+.timer-arc--urgent {
+  fill: none;
+  stroke: #e8635a;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 188.5;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+  filter: drop-shadow(0 0 4px rgba(232, 99, 90, 0.6));
+}
+
+.timer-text--urgent {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #e8635a;
+  animation: urgentPulse 0.5s ease-in-out infinite alternate;
+}
+
+.timer-label--urgent {
+  font-size: 0.7rem;
+  color: #e8635a;
+  font-weight: 800;
+  margin-top: 2px;
+  text-align: center;
+  animation: urgentPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes urgentPulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.12); }
+}
+
+
+/* Correctif timer */
+.timer-container { background: var(--cream-warm, #fff8f0); border: 2px solid var(--caramel-pale, #e8c99a); border-radius: 18px; padding: 8px 14px; flex: 0 0 115px; box-shadow: 0 4px 14px rgba(200,135,74,.12); box-sizing: border-box; }
+.timer-container--urgent { border-color: #e8635a; background: #fff0f0; box-shadow: 0 0 0 3px rgba(232,99,90,.12); }
+.timer-arc:not(.timer-arc--urgent) { stroke: var(--caramel, #c8874a); filter: none; }
+.timer-text:not(.timer-text--urgent) { color: var(--brown, #6b3f1f); animation: none; }
+.timer-label:not(.timer-label--urgent) { color: var(--brown-soft, #9c6b3c); animation: none; }
+.timer-label--urgent { color: #e8635a; font-weight: 900; }
+
+/* Grande taille de texte option */
+:host(.grande-police) .instruction-text {
+  font-size: 1.4rem;
+}
+:host(.grande-police) .instruction-highlight {
+  font-size: 2.2rem;
+}
+:host(.grande-police) .timer-text {
+  font-size: 1.8rem;
+}
+:host(.grande-police) .nogo-badge {
+  font-size: 1.1rem;
+}

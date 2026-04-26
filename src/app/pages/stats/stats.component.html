@@ -1,0 +1,170 @@
+<header class="topbar">
+    <div class="topbar-logo">
+        <div class="logo-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/>
+                <circle cx="12" cy="12" r="3.5" fill="#fff"/>
+            </svg>
+        </div>
+        <span class="logo-text">FocusKid</span>
+    </div>
+    <div class="topbar-center">
+        <a class="breadcrumb" routerLink="/dashboard">Patients</a>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <span class="breadcrumb active">{{ patient ? patient.prenom + ' ' + patient.nom : 'Statistiques' }}</span>
+    </div>
+    <a class="btn-back" routerLink="/dashboard">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Retour
+    </a>
+</header>
+
+<main class="page">
+
+    <!-- Patient banner -->
+    <div class="patient-banner">
+        <div class="pb-left">
+            <div class="pb-avatar">{{ patient ? getInitials(patient) : '—' }}</div>
+            <div>
+                <div class="pb-name">{{ patient ? patient.prenom + ' ' + patient.nom : '—' }}</div>
+                <div class="pb-meta">{{ patient ? patient.age + ' ans · ' + patient.classe + ' · ' + patient.profil + ' · ' + patient.seances + ' séances' : '—' }}</div>
+            </div>
+        </div>
+        <div class="pb-right">
+            <div class="period-seg">
+                <button class="per-btn" [class.active]="activePeriod===7" (click)="setPeriod(7)">7 jours</button>
+                <button class="per-btn" [class.active]="activePeriod===30" (click)="setPeriod(30)">30 jours</button>
+                <button class="per-btn" [class.active]="activePeriod===90" (click)="setPeriod(90)">3 mois</button>
+            </div>
+            <a class="btn-config" routerLink="/configuration">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+                Configurer une séance
+            </a>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-green-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div><div class="kpi-val" style="color:#16a34a">{{ kpiScore }}</div><div class="kpi-lbl">Score moyen</div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-red-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </div>
+            <div><div class="kpi-val" style="color:#dc2626">{{ kpiErreurs }}</div><div class="kpi-lbl">Erreurs / séance</div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-blue-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div><div class="kpi-val" style="color:#2563eb">{{ kpiSeances }}</div><div class="kpi-lbl">Séances totales</div></div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-teal-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div><div class="kpi-val" [style.color]="kpiProgressColor">{{ kpiProgress }}</div><div class="kpi-lbl">Progression (vs préc.)</div></div>
+        </div>
+    </div>
+
+    <!-- Charts row 1 -->
+    <div class="charts-row">
+        <div class="card chart-wide">
+            <div class="card-head-chart">
+                <div><div class="card-title">Évolution du score</div><div class="card-sub">Score obtenu à chaque séance</div></div>
+                <div class="legend">
+                    <span class="leg-dot" style="background:#0891b2"></span>Score
+                    <span class="leg-dot" style="background:#94a3b8;margin-left:14px"></span>Objectif
+                </div>
+            </div>
+            <div class="chart-area"><canvas id="canvasScore"></canvas></div>
+        </div>
+        <div class="card">
+            <div class="card-head-chart">
+                <div><div class="card-title">Erreurs par séance</div><div class="card-sub">Nombre d'erreurs commises</div></div>
+            </div>
+            <div class="chart-area"><canvas id="canvasErreurs"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Charts row 2 -->
+    <div class="charts-row charts-3">
+        <div class="card">
+            <div class="card-head-chart">
+                <div class="card-title">Types d'erreurs</div>
+                <div class="card-sub">Répartition par catégorie</div>
+            </div>
+            <div class="donut-wrap">
+                <canvas id="canvasDonut"></canvas>
+                <div class="donut-center">
+                    <span class="dc-val">{{ donutMain.pct }}%</span>
+                    <span class="dc-lbl">{{ donutMain.label }}</span>
+                </div>
+            </div>
+            <div class="donut-legend">
+                <div class="dl-row" *ngFor="let seg of donutSegs">
+                    <div class="dl-left">
+                        <div class="dl-dot" [style.background]="seg.color"></div>
+                        {{ seg.label }}
+                    </div>
+                    <div class="dl-pct">{{ seg.value }}%</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-head-chart">
+                <div><div class="card-title">Temps de réponse</div><div class="card-sub">Secondes par séance</div></div>
+            </div>
+            <div class="chart-area"><canvas id="canvasTemps"></canvas></div>
+        </div>
+        <div class="card">
+            <div class="card-head-chart">
+                <div class="card-title">Niveaux complétés</div>
+                <div class="card-sub">Progression par niveau</div>
+            </div>
+            <div class="level-list">
+                <div class="lv-row" *ngFor="let lv of levels">
+                    <div class="lv-head">
+                        <span class="lv-name">{{ lv.name }}</span>
+                        <span class="lv-val">{{ lv.done }}/{{ lv.total }}</span>
+                    </div>
+                    <div class="lv-bar">
+                        <div class="lv-fill" [style.width.%]="lv.pct" [style.background]="lv.color"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+        <div class="card-head-chart" style="margin-bottom:18px">
+            <div><div class="card-title">Historique des séances</div><div class="card-sub">Détail complet de chaque séance</div></div>
+        </div>
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                <tr><th>#</th><th>Date</th><th>Niveau</th><th>Durée</th><th>Score</th><th>Erreurs</th><th>👆👆 Dbl-clic</th><th>Tps moy.</th><th>Statut</th></tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of tableRows">
+                    <td>{{ row.id }}</td>
+                    <td style="font-weight:700;color:#111827">{{ row.date }}</td>
+                    <td style="font-weight:700;color:#111827">{{ row.niveau }}</td>
+                    <td>{{ row.duree }} min</td>
+                    <td [style.color]="getScoreColor(row.score)" style="font-family:'Baloo 2',cursive;font-weight:800">{{ row.score }}%</td>
+                    <td style="color:#dc2626;font-family:'Baloo 2',cursive;font-weight:800">{{ row.erreurs }}</td>
+                    <td style="color:#f59e0b;font-family:'Baloo 2',cursive;font-weight:800">{{ row.erreursDblClic }}</td>
+                    <td style="color:#2563eb;font-family:'Baloo 2',cursive;font-weight:800">{{ row.tempsMoyen }}s</td>
+                    <td><span class="badge-status" [ngClass]="getBadgeClass(row.score)">{{ getBadgeLabel(row.score) }}</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>

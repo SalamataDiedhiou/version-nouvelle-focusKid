@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap');
+
+:host { display: block; font-family: 'Nunito', sans-serif; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; padding: 0 24px;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(8,145,178,0.12);
+  box-shadow: 0 2px 10px rgba(8,145,178,0.08);
+}
+.topbar-logo { display: flex; align-items: center; gap: 8px; }
+.logo-circle { width: 32px; height: 32px; border-radius: 50%; background: #0e7490; display: flex; align-items: center; justify-content: center; }
+.logo-text { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 20px; color: #0e7490; }
+.topbar-center { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #6b7280; }
+.breadcrumb { color: #6b7280; font-weight: 700; text-decoration: none; &:hover { color: #0891b2; } &.active { color: #111827; } }
+.btn-back {
+  display: flex; align-items: center; gap: 7px; padding: 7px 16px;
+  border-radius: 10px; border: 1.5px solid #e2e8f0; background: white;
+  color: #4b5563; font-family: 'Nunito', sans-serif; font-size: 13px;
+  font-weight: 700; text-decoration: none; transition: all 0.18s;
+  &:hover { border-color: #cffafe; color: #0e7490; }
+}
+
+.page { max-width: 1180px; margin: 0 auto; padding: 28px 24px 60px; display: flex; flex-direction: column; gap: 16px; }
+
+// Patient banner
+.patient-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.pb-left { display: flex; align-items: center; gap: 14px; }
+.pb-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pb-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #cffafe; color: #0e7490;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 18px;
+}
+.pb-name { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 22px; color: #111827; }
+.pb-meta { font-size: 13px; color: #6b7280; font-weight: 600; margin-top: 2px; }
+
+.period-seg {
+  display: flex; background: white; border: 1.5px solid #e2e8f0;
+  border-radius: 10px; padding: 3px; gap: 2px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+.per-btn {
+  padding: 6px 16px; border: none; border-radius: 10px;
+  background: transparent; font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700; color: #6b7280; cursor: pointer; transition: all 0.18s;
+  &.active { background: #0891b2; color: white; }
+  &:hover:not(.active) { color: #111827; }
+}
+.btn-config {
+  display: flex; align-items: center; gap: 8px; padding: 9px 18px;
+  border-radius: 10px; background: #0891b2; color: white;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px;
+  text-decoration: none; transition: all 0.18s;
+  box-shadow: 0 4px 14px rgba(8,145,178,0.25);
+  &:hover { background: #0e7490; transform: translateY(-1px); }
+}
+
+// KPIs
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.kpi-card {
+  background: white; border-radius: 24px; padding: 18px 20px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 2px 14px rgba(8,145,178,0.10);
+  border: 1px solid rgba(8,145,178,0.08);
+  animation: fadeUp 0.35s ease both;
+}
+.kpi-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.kpi-green-icon { background: #f0fdf4; color: #16a34a; }
+.kpi-red-icon   { background: #fef2f2; color: #dc2626; }
+.kpi-blue-icon  { background: #eff6ff; color: #2563eb; }
+.kpi-teal-icon  { background: #ecfeff; color: #0891b2; }
+.kpi-val { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 26px; line-height: 1; }
+.kpi-lbl { font-size: 11px; color: #6b7280; margin-top: 4px; font-weight: 700; }
+
+// Cards
+.card {
+  background: white; border-radius: 24px; padding: 22px 24px;
+  box-shadow: 0 2px 14px rgba(8,145,178,0.08);
+  border: 1px solid rgba(8,145,178,0.07);
+  animation: fadeUp 0.35s ease both;
+}
+.charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.charts-3 { grid-template-columns: 1fr 1fr 1fr; }
+.card-head-chart { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
+.card-title { font-family: 'Baloo 2', cursive; font-weight: 700; font-size: 15px; color: #111827; }
+.card-sub { font-size: 11px; color: #6b7280; margin-top: 2px; font-weight: 600; }
+.legend { display: flex; align-items: center; font-size: 11px; color: #6b7280; font-weight: 700; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+.chart-area { position: relative; height: 180px; }
+.chart-area canvas { width: 100% !important; height: 100% !important; }
+
+// Donut
+.donut-wrap { position: relative; width: 150px; height: 150px; margin: 0 auto 14px; }
+.donut-wrap canvas { width: 100% !important; height: 100% !important; }
+.donut-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  text-align: center; pointer-events: none;
+}
+.dc-val { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 22px; color: #111827; display: block; }
+.dc-lbl { font-size: 10px; color: #6b7280; font-weight: 700; }
+.donut-legend { }
+.dl-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; padding: 5px 0; }
+.dl-left { display: flex; align-items: center; gap: 7px; color: #4b5563; font-weight: 600; }
+.dl-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.dl-pct { font-family: 'Baloo 2', cursive; font-weight: 700; color: #111827; }
+
+// Levels
+.level-list { }
+.lv-row { margin-bottom: 12px; }
+.lv-head { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+.lv-name { color: #4b5563; font-weight: 700; }
+.lv-val { color: #111827; font-family: 'Baloo 2', cursive; font-weight: 700; }
+.lv-bar { height: 7px; background: #e5e7eb; border-radius: 10px; overflow: hidden; }
+.lv-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+
+// Table
+.table-wrap { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table thead th {
+  text-align: left; font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.8px; color: #9ca3af; padding: 0 12px 12px;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+.data-table tbody tr { border-bottom: 1px solid #e2e8f0; transition: background 0.15s; }
+.data-table tbody tr:last-child { border-bottom: none; }
+.data-table tbody tr:hover { background: #f9fafb; }
+.data-table tbody td { padding: 12px; color: #4b5563; vertical-align: middle; font-weight: 600; }
+.data-table tbody td:first-child { color: #9ca3af; font-family: 'Baloo 2', cursive; font-weight: 700; }
+.badge-status { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; }
+.badge-excellent { background: #dcfce7; color: #16a34a; }
+.badge-bien      { background: #ecfeff; color: #0e7490; }
+.badge-moyen     { background: #fef9c3; color: #a16207; }
+.badge-difficile { background: #fef2f2; color: #dc2626; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 960px) {
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .charts-row, .charts-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .kpi-row { grid-template-columns: 1fr; }
+  .patient-banner { flex-direction: column; align-items: flex-start; }
+}

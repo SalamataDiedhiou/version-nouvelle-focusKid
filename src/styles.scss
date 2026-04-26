@@ -1,0 +1,14 @@
+
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #fdf6ee; /* Match the beige background of the app */
+  min-height: 100vh;
+  margin: 0;
+}
+

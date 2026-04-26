@@ -1,0 +1,29 @@
+<ng-content></ng-content>
+
+<app-shape-item
+        *ngFor="let s of shapes"
+        [type]="s.shape"
+        [color]="s.color"
+        [size]="s.size"
+        class="shape"
+        [ngClass]="s.classes"
+        [style.left.px]="s.x"
+        [style.top.px]="s.y"
+        [style.zIndex]="s.zIndex"
+        [style.pointerEvents]="s.pointerEvents"
+        [style.transform]="s.transform"
+        [style.transition]="s.classes.includes('target-highlight')
+    ? 'left 0.5s ease, top 0.5s ease, transform 0.5s ease'
+    : ''"
+        (click)="onShapeClick(s)">
+</app-shape-item>
+
+<div *ngFor="let c of confettis"
+     class="confetti-piece"
+     [style.left.px]="c.x"
+     [style.top.px]="c.y"
+     [style.background]="c.bg"
+     [style.animationDuration]="c.dur"
+     [style.animationDelay]="c.del"
+     [style.borderRadius]="c.br">
+</div>

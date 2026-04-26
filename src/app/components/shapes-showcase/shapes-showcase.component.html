@@ -1,0 +1,9 @@
+<div class="shapes-showcase">
+    <app-shape-item
+            *ngFor="let s of showcase"
+            [type]="s.type"
+            [color]="s.color"
+            [size]="s.size"
+            [ngClass]="'showcase-shape ' + s.cls">
+    </app-shape-item>
+</div>

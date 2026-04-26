@@ -1,0 +1,24 @@
+<div class="top-bar">
+    <div class="timer-spacer" *ngIf="timerVisible && timerValue > 0"></div>
+    <div class="instruction-box">
+        <span class="instruction-icon">👁️</span>
+        <div class="instruction-text">Trouve&nbsp;:</div>
+        <div class="target-preview" id="targetPreview">
+            <app-shape-item *ngIf="shape" [type]="shape" [color]="color" [size]="60"></app-shape-item>
+        </div>
+        <div class="target-label-wrap" id="targetLabelWrap">
+            <span class="instruction-highlight" id="targetLabel" [style.color]="color">{{ text }}</span>
+            <div *ngIf="isNoGo" id="nogoBadge" class="nogo-badge">🚫 Elle n'est peut-être pas là !</div>
+        </div>
+    </div>
+    <div class="timer-container" *ngIf="timerVisible && timerValue > 0" [class.timer-container--urgent]="isUrgent">
+        <div class="timer-circle">
+            <svg class="timer-svg" viewBox="0 0 70 70">
+                <circle class="timer-bg" cx="35" cy="35" r="30"></circle>
+                <circle class="timer-arc" [class.timer-arc--urgent]="isUrgent" cx="35" cy="35" r="30" [style.stroke-dashoffset]="strokeDashoffset"></circle>
+            </svg>
+            <div class="timer-text" [class.timer-text--urgent]="isUrgent">{{ timerValue }}</div>
+        </div>
+        <div class="timer-label" [class.timer-label--urgent]="isUrgent">{{ isUrgent ? '⚡ Vite !' : 'Temps' }}</div>
+    </div>
+</div>

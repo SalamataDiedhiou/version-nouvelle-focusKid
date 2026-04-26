@@ -1,0 +1,76 @@
+<aside class="sidebar">
+
+    <!-- Section: Avant la pause -->
+    <div class="sidebar-section pause-progress-section">
+        <div class="sidebar-title">⏸ Avant la pause</div>
+        <div class="pause-stars-row">
+      <span
+              class="pause-star"
+              *ngFor="let s of pauseStarsArray; let i = index"
+              [class.filled]="i < correctSinceLastPause">
+        {{ i < correctSinceLastPause ? '⭐' : '☆' }}
+      </span>
+        </div>
+        <div class="pause-progress-hint" *ngIf="pauseRemaining > 0">
+            Plus que <strong>{{ pauseRemaining }}</strong> étoile(s) !
+        </div>
+        <div class="pause-progress-hint bravo" *ngIf="pauseRemaining === 0">
+            🎉 Pause méritée !
+        </div>
+    </div>
+
+    <!-- Section: Mes étoiles -->
+    <div class="sidebar-section stars-section">
+        <div class="sidebar-title">⭐ Mes étoiles</div>
+        <div class="stars-row">
+      <span
+              class="star"
+              *ngFor="let s of starsDisplayArray; let i = index"
+              [class.earned]="i < starsEarned">
+        ⭐
+      </span>
+        </div>
+        <div class="stars-count">{{ starsEarned }} étoile(s) gagnée(s)</div>
+    </div>
+
+    <!-- Section: Vitesse (niveau intermédiaire) -->
+    <div class="sidebar-section" *ngIf="levelContext === 'niveau-intermediaire'">
+        <div class="sidebar-title">🚀 Vitesse</div>
+        <div class="stage-dots">
+      <span class="stage-dot" *ngFor="let icon of stageIcons; let i = index" [class.active]="i === stage">
+        {{ icon }}
+      </span>
+        </div>
+        <div class="speed-hint">Plus tu réussis, plus ça va vite !</div>
+    </div>
+
+    <!-- Section: Badges (débloqués toutes les 5 étoiles) -->
+    <div class="sidebar-section">
+        <div class="sidebar-title">🏅 Badges</div>
+        <div class="badges-grid">
+            <div
+                    class="badge"
+                    *ngFor="let b of badgeDefinitions"
+                    [class.earned-badge]="earnedBadgeCount >= b.threshold">
+                <div class="badge-icon">{{ b.icon }}</div>
+                <div class="badge-name">{{ b.name }}</div>
+                <div class="badge-lock" *ngIf="earnedBadgeCount < b.threshold">🔒</div>
+            </div>
+        </div>
+        <div class="badges-hint">1 badge toutes les 5 ⭐</div>
+    </div>
+
+    <!-- Bouton retour config -->
+    <button class="btn-back" (click)="onGoBack()">← Configs</button>
+
+    <!-- Bouton rejouer -->
+    <button class="btn-new" (click)="onReplay()">🔄 Recommencer</button>
+
+    <!-- Badge popup notification -->
+    <div class="badge-popup" *ngIf="newBadgeVisible">
+        <div class="badge-popup-icon">{{ newBadgeIcon }}</div>
+        <div class="badge-popup-text">Nouveau badge !</div>
+        <div class="badge-popup-name">{{ newBadgeName }}</div>
+    </div>
+
+</aside>

@@ -1,0 +1,175 @@
+<header class="topbar">
+    <a class="logo" routerLink="/">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="#0891b2" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4" fill="#0891b2"/>
+        </svg>
+        <span class="logo-text">FocusKid</span>
+    </a>
+    <h1 class="topbar-title">Espace Ergothérapeute</h1>
+    <div class="topbar-right">
+        <div class="user-badge">
+            <div class="user-ava">DR</div>
+            <span>Dr. Rousseau</span>
+        </div>
+
+        <button class="logout-btn" (click)="logout()">
+            Déconnexion
+        </button>
+    </div>
+</header>
+
+<main class="page">
+    <div class="page-header">
+        <div>
+            <h2 class="page-title">Mes patients</h2>
+            <p class="page-sub">Gérez les profils et accédez aux configurations de séance</p>
+        </div>
+        <button class="btn-add" (click)="openAddModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Nouveau patient
+        </button>
+    </div>
+
+    <div class="toolbar">
+        <div class="search-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" placeholder="Rechercher un patient…"
+                   [value]="searchQuery"
+                   (input)="onSearch($any($event.target).value)" />
+        </div>
+        <div class="filter-group">
+            <button class="filter-btn" [class.active]="activeFilter === 'all'" (click)="setFilter('all')">Tous</button>
+            <button class="filter-btn" [class.active]="activeFilter === 'Inattention'" (click)="setFilter('Inattention')">Inattention</button>
+            <button class="filter-btn" [class.active]="activeFilter === 'Hyperactivité'" (click)="setFilter('Hyperactivité')">Hyperactivité</button>
+        </div>
+    </div>
+
+    <div class="patients-grid" *ngIf="filteredList.length > 0">
+        <div class="patient-card" *ngFor="let patient of filteredList">
+            <div class="card-top">
+                <div class="avatar">{{ getInitials(patient) }}</div>
+                <div class="card-actions">
+                    <button class="icon-btn" title="Modifier" (click)="openEditModal(patient)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn icon-btn-red" title="Supprimer" (click)="deletePatient(patient.id)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                            <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="patient-name">{{ patient.prenom }} {{ patient.nom }}</div>
+            <div class="patient-meta">{{ patient.age }} ans · {{ patient.classe }}</div>
+            <span class="profil-badge" [ngClass]="getBadgeClass(patient.profil)">{{ patient.profil }}</span>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-val" [style.color]="getScoreColor(patient.score)">{{ patient.score }}%</div>
+                    <div class="stat-lbl">Score moy.</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" style="color:#dc2626">{{ patient.erreurs }}</div>
+                    <div class="stat-lbl">Erreurs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" style="color:#2563eb">{{ patient.seances }}</div>
+                    <div class="stat-lbl">Séances</div>
+                </div>
+            </div>
+
+            <div class="last-session">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Dernière séance : {{ patient.derniereSeance }}
+            </div>
+
+            <div class="card-footer">
+                <button class="btn-stats" (click)="goToStats(patient)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                    Statistiques
+                </button>
+                <button class="btn-config" (click)="goToConfig(patient)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+                    </svg>
+                    Configurer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredList.length === 0">
+        <div class="empty-icon">🔍</div>
+        <p>Aucun patient trouvé</p>
+    </div>
+</main>
+
+<!-- Modal -->
+<div class="overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <div class="modal-head">
+            <h2>{{ editingPatient ? 'Modifier le patient' : 'Nouveau patient' }}</h2>
+            <button class="modal-close" (click)="closeModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-field">
+                    <label class="form-label">Prénom *</label>
+                    <input type="text" class="form-input" placeholder="ex : Adam" [(ngModel)]="formData.prenom" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Nom *</label>
+                    <input type="text" class="form-input" placeholder="ex : Moreau" [(ngModel)]="formData.nom" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label class="form-label">Âge *</label>
+                    <input type="number" class="form-input" min="4" max="18" placeholder="ex : 8" [(ngModel)]="formData.age" />
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Classe *</label>
+                    <input type="text" class="form-input" placeholder="ex : CE2" [(ngModel)]="formData.classe" />
+                </div>
+            </div>
+            <div class="form-field">
+                <label class="form-label">Profil</label>
+                <select class="form-input" [(ngModel)]="formData.profil">
+                    <option value="Inattention">Inattention</option>
+                    <option value="Hyperactivité">Hyperactivité</option>
+                    <option value="Mixte">Mixte</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label class="form-label">Objectif</label>
+                <textarea class="form-input form-textarea" rows="2"
+                          placeholder="ex : Améliorer l'attention visuelle…"
+                          [(ngModel)]="formData.objectif"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" (click)="closeModal()">Annuler</button>
+                <button class="btn-save" (click)="savePatient()">
+                    {{ editingPatient ? 'Enregistrer' : 'Ajouter' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

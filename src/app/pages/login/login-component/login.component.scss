@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+:host {
+  display: block;
+  font-family: 'Nunito', sans-serif;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+          radial-gradient(circle at top left, rgba(8, 145, 178, 0.18), transparent 35%),
+          linear-gradient(135deg, #f8fafc, #eef6f8);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 430px;
+  background: white;
+  border-radius: 24px;
+  padding: 34px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(8, 145, 178, 0.12);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 34px;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #0891b2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #0f172a;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.intro h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 25px;
+}
+
+.intro p {
+  margin: 8px 0 26px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #334155;
+}
+
+input {
+  height: 46px;
+  border-radius: 12px;
+  border: 1.5px solid #dbe3ea;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  background: #f8fafc;
+
+  &:focus {
+    background: white;
+    border-color: #0891b2;
+    box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.12);
+  }
+}
+
+.error {
+  margin: 0;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+button {
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: #0891b2;
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(8, 145, 178, 0.28);
+
+  &:hover {
+    background: #0e7490;
+  }
+}

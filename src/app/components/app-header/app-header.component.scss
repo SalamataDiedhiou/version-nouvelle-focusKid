@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.app-header {
+  background: var(--cream);
+  border-bottom: 3px solid var(--beige-mid);
+  padding: 0 2rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 16px var(--shadow);
+  position: relative;
+  z-index: 10;
+}
+
+.logo {
+  font-family: 'Baloo 2', cursive;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--caramel);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot { color: var(--brown); }
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.level-badge {
+  background: var(--caramel);
+  color: white;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 6px 20px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(200, 133, 74, 0.35);
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--beige-mid);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-weight: 700;
+  color: var(--brown);
+  font-size: 1rem;
+}
+
+.header-tagline {
+  font-family: 'Baloo 2', cursive;
+  color: var(--brown-soft);
+  font-size: 0.95rem;
+  font-weight: 600;
+}

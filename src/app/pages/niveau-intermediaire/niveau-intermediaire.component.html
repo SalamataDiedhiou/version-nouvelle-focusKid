@@ -1,0 +1,88 @@
+<!-- Header partagé (comme Niveau 1 et 2) -->
+<app-header [level]="0" [score]="score"></app-header>
+
+<div class="main-layout" *ngIf="phase !== 'end'">
+    <div class="center-zone">
+
+        <!-- Barre d'instruction + timer partagée (comme Niveau 1) -->
+        <app-info-bar
+                [text]="targetText"
+                [color]="colors[currentTarget.color]"
+                [shape]="currentTarget.shape"
+                [isNoGo]="false"
+                [timerVisible]="timerVisible"
+                [timerValue]="timerVal"
+                [timerMax]="timerMax"
+                [grandePolice]="config.grandePolice">
+        </app-info-bar>
+        <div class="speed-badge-row">{{ getSpeedLabel() }}</div>
+
+        <div class="game-area">
+            <!-- Moving shapes using the ShapeItemComponent -->
+            <button
+                    class="moving-shape"
+                    *ngFor="let item of shapes"
+                    [style.left.%]="item.x"
+                    [style.top.%]="item.y"
+                    [style.width.px]="item.size"
+                    [style.height.px]="item.size"
+                    (mousedown)="onShapeClick(item)">
+                <app-shape-item
+                        [type]="item.shape"
+                        [color]="item.colorHex"
+                        [size]="item.size">
+                </app-shape-item>
+            </button>
+
+            <!-- Feedback partagé (comme Niveau 1) -->
+            <app-feedback-box></app-feedback-box>
+        </div>
+    </div>
+
+    <app-game-sidebar
+            levelContext="niveau-intermediaire"
+            [starsEarned]="correct"
+            [correctSinceLastPause]="correctSinceLastPause"
+            [pauseStarsRequired]="autoPauseEvery"
+            [stage]="stage"
+            (replay)="replay()"
+            (goBack)="goBack()">
+    </app-game-sidebar>
+</div>
+
+<!-- Pause -->
+<div class="pause-overlay" *ngIf="showPause">
+    <div class="pause-card">
+        <div class="pause-icon">{{ pauseMessage.icon }}</div>
+        <div class="pause-title">{{ pauseMessage.title }}</div>
+        <div class="pause-sub">{{ pauseMessage.sub }}</div>
+        <div class="pause-breathe">Respire doucement…</div>
+        <button class="btn-resume" (click)="resumeFromPause()">▶ Je suis prêt(e) !</button>
+    </div>
+</div>
+
+<!-- Inter-Party -->
+<div class="pause-overlay" *ngIf="showInterParty">
+    <div class="pause-card transition-card">
+        <div class="pause-icon">🌟</div>
+        <div class="pause-title">Super partie !</div>
+        <div class="pause-sub">Tu as terminé la partie {{ currentParty }} sur {{ config.nbParties }}.</div>
+        <button class="btn-resume" (click)="nextParty()">▶ C'est parti !</button>
+    </div>
+</div>
+
+<!-- End -->
+<div class="pause-overlay" *ngIf="phase === 'end'">
+    <div class="pause-card end-card">
+        <div class="pause-icon">🏆</div>
+        <div class="pause-title">Bravo, tu as fini !</div>
+        <div class="pause-sub">Tu attrapes des formes qui bougent — tu es incroyable !</div>
+        <div class="end-stats">
+            <div class="end-stat">⭐ {{ correct }} formes attrapées</div>
+            <div class="end-stat">🔥 Meilleure série : {{ bestStreak }}</div>
+            <div class="end-stat">🎯 Score : {{ score }}</div>
+        </div>
+        <button class="btn-resume btn-end-replay" (click)="replay()">🔄 Rejouer !</button>
+        <button class="btn-resume" (click)="goBack()">← Configuration</button>
+    </div>
+</div>

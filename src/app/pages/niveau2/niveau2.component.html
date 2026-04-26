@@ -1,0 +1,221 @@
+<app-header [level]="2" [score]="score"></app-header>
+
+<div class="main-layout" *ngIf="phase !== 'end'">
+    <div class="center-zone">
+
+        <app-info-bar
+                [text]="infoBarText"
+                [color]="'#5a9de8'"
+                [shape]="''"
+                [isNoGo]="false"
+                [timerVisible]="config.activerTempsReponse && phase === 'answer'"
+                [timerValue]="countdownSecondsLeft"
+                [timerMax]="phase === 'memorize' ? (currentDiff.memorizeMs / 1000) : config.tempsReponse"
+                [grandePolice]="config.grandePolice">
+        </app-info-bar>
+
+        <div class="phase-panel" *ngIf="phase === 'memorize'">
+            <div class="phase-label">
+                {{ currentDiff.mode === 'gaps' ? '🔎 Gaps' : currentDiff.mode === 'multi-choice' ? '🎯 Choix multiple' : '🏗️ Reconstruction' }}
+            </div>
+
+            <div class="sequence-display">
+                <div class="seq-shape" *ngFor="let item of sequence; let i = index">
+                    <app-shape-item
+                            [type]="item.shape"
+                            [color]="colors[item.color]"
+                            [size]="80">
+                    </app-shape-item>
+                    <div class="seq-number">{{ i + 1 }}</div>
+                </div>
+            </div>
+
+            <div class="countdown-bar-wrap">
+                <div class="countdown-bar" [style.width.%]="countdownPercent"></div>
+            </div>
+
+            <div class="countdown-text">{{ countdownText }}</div>
+
+            <button class="btn-memorize-ready" [disabled]="!readyEnabled" (click)="showAnswerPhase()">
+                Je suis prêt(e) !
+            </button>
+        </div>
+
+        <div class="phase-panel" *ngIf="phase === 'answer'">
+            <div class="phase-label">
+                {{ currentDiff.mode === 'gaps' ? '🔎 Gaps' : currentDiff.mode === 'multi-choice' ? '🎯 Choix multiple' : '🏗️ Reconstruction' }}
+            </div>
+
+            <ng-container *ngIf="currentDiff.mode === 'gaps'">
+                <div class="sequence-with-gaps">
+                    <div *ngFor="let item of sequence; let i = index">
+                        <div class="gap-slot"
+                             [class.filled]="filledGaps[i]"
+                             *ngIf="isGap(i); else normalShape">
+                            <ng-container *ngIf="filledGaps[i]; else questionMark">
+                                <app-shape-item
+                                        [type]="item.shape"
+                                        [color]="colors[item.color]"
+                                        [size]="60">
+                                </app-shape-item>
+                            </ng-container>
+
+                            <ng-template #questionMark>❓</ng-template>
+
+                            <div class="gap-label">#{{ i + 1 }}</div>
+                        </div>
+
+                        <ng-template #normalShape>
+                            <div class="seq-shape">
+                                <app-shape-item
+                                        [type]="item.shape"
+                                        [color]="colors[item.color]"
+                                        [size]="72">
+                                </app-shape-item>
+                                <div class="seq-number">{{ i + 1 }}</div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+
+                <div class="choices-grid">
+                    <button class="choice-btn"
+                            *ngFor="let item of choices"
+                            [disabled]="roundLocked"
+                            (click)="onGapChoiceClick(item)">
+                        <app-shape-item
+                                [type]="item.shape"
+                                [color]="colors[item.color]"
+                                [size]="60">
+                        </app-shape-item>
+                        <div>{{ shapeLabels[item.shape] }} {{ item.color }}</div>
+                    </button>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="currentDiff.mode === 'multi-choice'">
+                <div class="multi-sequences">
+                    <button class="multi-seq-option"
+                            *ngFor="let option of multiOptions; let i = index"
+                            [class.correct]="option.selected && option.correct"
+                            [class.wrong]="option.wrong"
+                            [disabled]="roundLocked || option.wrong"
+                            (click)="onMultiChoice(option)">
+                        <div class="option-letter">{{ ['A', 'B', 'C', 'D'][i] }}</div>
+
+                        <div class="option-shapes">
+                            <app-shape-item
+                                    *ngFor="let item of option.seq"
+                                    [type]="item.shape"
+                                    [color]="colors[item.color]"
+                                    [size]="48">
+                            </app-shape-item>
+                        </div>
+                    </button>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="currentDiff.mode === 'reconstruct'">
+                <div class="reconstruct-area">
+                    <div class="reconstruct-bank">
+                        <div class="reconstruct-bank-label">
+                            1. Clique une forme &nbsp; 2. Clique un numéro
+                        </div>
+
+                        <div class="bank-shape"
+                             *ngFor="let seqIdx of bankOrder"
+                             [class.used]="pieceUsed[seqIdx]"
+                             [class.selected-piece]="selectedPieceIdx === seqIdx"
+                             (click)="selectBankPiece(seqIdx)">
+                            <app-shape-item
+                                    [type]="sequence[seqIdx].shape"
+                                    [color]="colors[sequence[seqIdx].color]"
+                                    [size]="62">
+                            </app-shape-item>
+
+                            <div class="bank-shape-label">
+                                {{ shapeLabels[sequence[seqIdx].shape] }} {{ sequence[seqIdx].color }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reconstruct-slots">
+                        <div class="recon-slot"
+                             *ngFor="let slot of slotContents; let i = index"
+                             [class.filled]="slot !== null"
+                             [class.can-highlight]="selectedPieceIdx !== null"
+                             (click)="selectSlot(i)">
+                            <ng-container *ngIf="slot !== null">
+                                <app-shape-item
+                                        [type]="sequence[slot].shape"
+                                        [color]="colors[sequence[slot].color]"
+                                        [size]="56">
+                                </app-shape-item>
+                            </ng-container>
+
+                            <div class="slot-num">#{{ i + 1 }}</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-validate"
+                            [disabled]="!allSlotsFilled() || roundLocked"
+                            (click)="validateReconstruct()">
+                        ✅ Valider ma séquence
+                    </button>
+                </div>
+            </ng-container>
+
+            <app-feedback-box></app-feedback-box>
+        </div>
+    </div>
+
+    <app-game-sidebar
+            levelContext="niveau2"
+            [starsEarned]="correct"
+            [correctSinceLastPause]="correctSinceLastPause"
+            [pauseStarsRequired]="autoPauseEvery"
+            [stage]="step"
+            (replay)="replay()"
+            (goBack)="goBack()">
+    </app-game-sidebar>
+</div>
+
+<div class="pause-overlay" *ngIf="showPause">
+    <div class="pause-card">
+        <div class="pause-icon">{{ pauseMessage.icon }}</div>
+        <div class="pause-title">{{ pauseMessage.title }}</div>
+        <div class="pause-sub">{{ pauseMessage.sub }}</div>
+        <div class="pause-breathe">Respire doucement…</div>
+        <button class="btn-resume" (click)="resumeFromPause()">▶ Je suis prêt(e) !</button>
+    </div>
+</div>
+
+<div class="pause-overlay" *ngIf="showInterParty">
+    <div class="pause-card transition-card">
+        <div class="pause-icon">🌟</div>
+        <div class="pause-title">Super partie !</div>
+        <div class="pause-sub">Tu as terminé la partie {{ currentParty }} sur {{ config.nbParties }}.</div>
+        <div class="pause-sub">Prêt(e) pour la suite ?</div>
+        <button class="btn-resume" (click)="nextParty()">▶ C'est parti !</button>
+    </div>
+</div>
+
+<div class="pause-overlay" *ngIf="phase === 'end'">
+    <div class="pause-card end-card">
+        <div class="pause-icon">🏆</div>
+        <div class="pause-title">Bravo, tu as fini !</div>
+
+        <div class="pause-sub">
+            Tu as mémorisé toutes les séquences — tu es un(e) champion(ne) !
+        </div>
+
+        <div class="end-stats">
+            <div class="end-stat">⭐ {{ correct }} bonnes réponses</div>
+            <div class="end-stat">🔥 Meilleure série : {{ bestStreak }}</div>
+            <div class="end-stat">🎯 Score : {{ score }}</div>
+        </div>
+
+        <button class="btn-resume btn-end-replay" (click)="replay()">🔄 Rejouer !</button>
+        <button class="btn-resume" (click)="goBack()">← Configuration</button>
+    </div>
+</div>
